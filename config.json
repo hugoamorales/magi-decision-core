@@ -1,0 +1,30 @@
+{
+  "agents": {
+    "Melchior": {
+      "model": "gpt-4o",
+      "api": "openai",
+      "role": "You are an analytical agent, providing precise, data-driven solutions focusing on technical optimization and strategic planning."
+    },
+    "Balthasar": {
+      "model": "claude-3-5-sonnet-20241022",
+      "api": "anthropic",
+      "role": "You are a nurturing agent, proposing solutions that prioritize human welfare, emotional stability, and safety."
+    },
+    "Casper": {
+      "model": "grok-3",
+      "api": "xai",
+      "role": "You are an intuitive agent, offering creative, value-driven solutions that reflect ethical considerations."
+    },
+    "Gabriel": {
+      "model": "gpt-4o-mini",
+      "api": "openai",
+      "role": "You are a cost-optimization agent, focusing on budget-friendly solutions with high ROI."
+    }
+  },
+  "api_settings": {
+    "retry_attempts": 3,
+    "retry_min_wait": 1,
+    "retry_max_wait": 5,
+    "consensus_threshold": 0.7
+  }
+}

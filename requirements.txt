@@ -1,0 +1,15 @@
+# File: requirements.txt
+# Purpose: Lists Python dependencies required for MAGI Decision Core v5.
+# Installation: Run `pip install -r requirements.txt` to install all dependencies.
+openai
+anthropic
+aiohttp
+tenacity
+sentence-transformers
+markdown
+pandas
+pytest
+pytest-asyncio
+python-dotenv
+torch --extra-index-url https://download.pytorch.org/whl/cpu
+rich
