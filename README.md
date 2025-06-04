@@ -22,7 +22,7 @@ MAGI Decision Core v5 is a multi-agent deliberation system inspired by *Neon Gen
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/your-repo/magi-decision-core.git](https://github.com/hugoamorales/magi-decision-core.git)
+   git clone https://github.com/hugoamorales/magi-decision-core.git
    cd magi-decision-core
    ```
 2. Install dependencies:
