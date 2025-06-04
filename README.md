@@ -1,6 +1,3 @@
-# magi-decision-core
-MAGI Decision Core v5: A multi-agent AI deliberation system inspired by Evangelion's MAGI. Coordinates Melchior, Balthasar, and Casper to solve problems via consensus or voting. Includes script and results. Explore AI collaboration!
-
 # MAGI Decision Core v5
 
 ## Overview
@@ -25,7 +22,7 @@ MAGI Decision Core v5 is a multi-agent deliberation system inspired by *Neon Gen
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/magi-decision-core.git
+   git clone [https://github.com/your-repo/magi-decision-core.git](https://github.com/hugoamorales/magi-decision-core.git)
    cd magi-decision-core
    ```
 2. Install dependencies:
