@@ -22,6 +22,7 @@ Modifications:
 - Fixed HTML output generation by removing incorrect float conversion of consensus_html string.
 - Moved confidence_log.json and magi_system.log to the analysis_results/<problem_folder> subfolder.
 - Added notification when no consensus is reached, informing users that potential solutions are stored in the results file.
+- Fixed f-string backslash issue in cross_justification_round for Python 3.10 compatibility by moving join logic outside f-string.
 """
 import argparse
 import asyncio
@@ -588,13 +589,18 @@ async def cross_justification_round(proposals: List[Dict], problem: str, agent_i
             {"id": idx, "solution": p["solution"][:100] + "...", "confidence": p["confidence"], "justification": p["justification"][:100] + "..."}
             for idx, p in enumerate(proposals) if p["agent"] != agent_name
         ]
+        # Create the proposals string outside the f-string to avoid backslash issues in Python 3.10
+        proposals_text = "\n".join([
+            f"Agent {p['id']}: {p['solution']} (Confidence: {p['confidence']})\nJustification: {p['justification']}"
+            for p in other_proposals
+        ])
         cross_prompt = f"""
 Original Problem: {problem}
 
 Your previous proposal: {next(p['solution'] for p in proposals if p['agent'] == agent_name)}
 
 Other agents' proposals (anonymized):
-{chr(10).join([f"Agent {p['id']}: {p['solution']} (Confidence: {p['confidence']})\nJustification: {p['justification']}" for p in other_proposals])}
+{proposals_text}
 
 Review the other agents' solutions and justifications. Consider:
 1. What strengths do you see in their approaches?
