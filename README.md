@@ -49,6 +49,31 @@ MAGI Decision Core v5 is a multi-agent deliberation system inspired by *Neon Gen
    ```
 
 ## Usage
+
+### Quick Start with Pipeline Examples
+
+**NEW!** Try our pre-built pipeline examples with interactive UI visualization:
+
+```bash
+cd examples
+
+# Run Decision Maker Pipeline (strategic decision-making)
+./run_decision_maker_example.sh
+
+# Run Article Creator Pipeline (multi-perspective content creation)
+./run_article_creator_example.sh
+```
+
+Each pipeline generates an **interactive HTML UI** that displays:
+- ✅ Side-by-side agent outputs with color-coded perspectives
+- ✅ Stage-by-stage progress tracking
+- ✅ Confidence meters and consensus indicators
+- ✅ Expandable/collapsible sections for easy navigation
+
+**See [examples/QUICKSTART.md](examples/QUICKSTART.md) for a 5-minute getting started guide!**
+
+### Command-Line Usage
+
 Run the script using the `magi` command (available after installation) or directly with `python magi_system_v5.py`. The script requires a `--problem` argument to specify the problem for deliberation.
 
 ### Command-Line Options
@@ -105,10 +130,44 @@ The script generates output files in the specified format (`json`, `md`, or `htm
 
 Output files are saved with timestamps (e.g., `magi_output_20250604_155200.json`). The script now ensures proper file path handling, fixing previous issues with undefined variables.
 
+## Pipeline System
+
+MAGI Decision Core now includes a powerful pipeline system for orchestrating multi-stage deliberations with interactive visualization.
+
+### Available Pipelines
+
+1. **Decision Maker Pipeline** (`examples/pipelines/decision_maker_pipeline.yml`)
+   - Strategic decision-making and problem-solving
+   - Stages: Gather proposals → Consensus check → Cross-justification → Voting
+   - Perfect for: Business decisions, technical choices, resource allocation
+
+2. **Article Creator Pipeline** (`examples/pipelines/article_creator_pipeline.yml`)
+   - Multi-perspective article generation
+   - Stages: Topic analysis → Content strategy → Article drafting → Quality review → Final synthesis
+   - Perfect for: Blog posts, documentation, marketing content
+
+### Creating Custom Pipelines
+
+1. Copy a pipeline template from `examples/pipelines/`
+2. Customize stages, agents, and prompts in the YAML file
+3. Run with: `python examples/pipeline_runner.py --pipeline your_pipeline.yml`
+
+See [examples/README.md](examples/README.md) for detailed documentation.
+
+### Interactive UI Features
+
+The pipeline system generates rich HTML visualizations:
+- **Side-by-side agent outputs**: Compare perspectives in real-time
+- **Color-coded agents**: Blue (Analytical), Red (Human-centric), Green (Creative)
+- **Stage progress**: Visual tracking of pipeline execution
+- **Confidence meters**: See agent confidence levels
+- **Consensus indicators**: Understand when agents agree/disagree
+
 ## Development Notes
 - The script includes enhanced internal documentation with detailed docstrings and comments for better maintainability.
 - The Gabriel agent is now optional and configurable, allowing users to specify its inclusion and model via command-line arguments.
 - Error handling has been improved to provide user-friendly feedback.
+- **NEW**: Pipeline system for orchestrating complex multi-stage deliberations with interactive UI.
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request on GitHub.

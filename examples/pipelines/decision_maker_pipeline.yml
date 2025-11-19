@@ -1,0 +1,100 @@
+name: "Decision Maker Pipeline"
+description: "MAGI triad deliberation for strategic decision-making and problem-solving"
+version: "1.0.0"
+
+pipeline_type: "decision_maker"
+
+# Input configuration
+inputs:
+  - name: "problem"
+    type: "text"
+    required: true
+    description: "The problem or decision to be analyzed"
+    placeholder: "Describe the situation or problem that needs a solution..."
+
+# Pipeline stages
+pipeline_stages:
+  - stage: "gather_proposals"
+    description: "Collect initial action plan proposals from all agents"
+    agents: ["Melchior", "Balthasar", "Casper"]
+    timeout: 60
+    prompt_template: |
+      Analyze the following problem and provide a comprehensive action plan to solve it:
+
+      Problem: {problem}
+
+      Your response should include:
+      1. Problem Analysis: Key issues and root causes
+      2. Proposed Solution: Detailed action plan with specific steps
+      3. Expected Outcomes: What results can be expected
+      4. Risks and Mitigation: Potential challenges and how to address them
+      5. Confidence Level: Your confidence in this approach (0.0 to 1.0)
+
+      Format your response with clear sections and actionable steps.
+
+  - stage: "consensus_check"
+    description: "Evaluate semantic similarity between proposals"
+    consensus_threshold: 0.7
+    output_display: "Checking if agents reached consensus on the approach..."
+
+  - stage: "cross_justification"
+    description: "Iterative refinement based on other agents' perspectives"
+    max_iterations: 2
+    agents: ["Melchior", "Balthasar", "Casper"]
+    prompt_template: |
+      Review the other agents' proposals and refine your action plan:
+
+      Original Problem: {problem}
+
+      Other Agents' Proposals:
+      {other_proposals}
+
+      Please:
+      1. Identify strengths in other proposals that could enhance your plan
+      2. Address any weaknesses or gaps you notice
+      3. Refine your action plan incorporating the best ideas
+      4. Justify your refined approach
+      5. Update your confidence level
+
+  - stage: "voting"
+    description: "Final voting if consensus not reached"
+    agents: ["Melchior", "Balthasar", "Casper"]
+    trigger_condition: "no_consensus"
+    prompt_template: |
+      Vote for the best action plan from all proposals:
+
+      Problem: {problem}
+
+      All Proposals:
+      {all_proposals}
+
+      Evaluate each proposal on:
+      - Feasibility and practicality
+      - Comprehensiveness
+      - Risk management
+      - Expected impact
+
+      Vote for the best proposal and justify your choice.
+
+# Output configuration
+output_format: ["json", "md", "html"]
+output_includes:
+  - "problem_statement"
+  - "all_proposals"
+  - "consensus_details"
+  - "voting_results"
+  - "final_action_plan"
+  - "confidence_metrics"
+  - "timeline"
+
+# UI Display configuration
+ui_display:
+  layout: "side_by_side"
+  show_agent_colors: true
+  agent_colors:
+    Melchior: "#3498db"  # Blue - Analytical
+    Balthasar: "#e74c3c"  # Red - Human-centric
+    Casper: "#2ecc71"  # Green - Creative
+  show_stage_progress: true
+  show_confidence_meters: true
+  enable_comparison_view: true
