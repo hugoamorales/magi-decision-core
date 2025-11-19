@@ -1,0 +1,175 @@
+name: "Article Creator Pipeline"
+description: "Multi-perspective article generation with tone customization"
+version: "1.0.0"
+
+pipeline_type: "article_creator"
+
+# Input configuration
+inputs:
+  - name: "idea"
+    type: "text"
+    required: true
+    description: "The main topic or idea for the article"
+    placeholder: "Enter the article topic or idea..."
+
+  - name: "target_audience"
+    type: "text"
+    required: true
+    description: "Who is the intended audience for this article?"
+    placeholder: "e.g., business executives, tech enthusiasts, general public..."
+
+  - name: "tones"
+    type: "multi_select"
+    required: true
+    description: "Select the tones to use in the article"
+    options:
+      - "Professional"
+      - "Conversational"
+      - "Educational"
+      - "Persuasive"
+      - "Inspirational"
+      - "Technical"
+      - "Humorous"
+      - "Authoritative"
+    default: ["Professional", "Educational"]
+
+  - name: "length"
+    type: "select"
+    required: false
+    description: "Desired article length"
+    options:
+      - "Short (500-800 words)"
+      - "Medium (800-1500 words)"
+      - "Long (1500-2500 words)"
+    default: "Medium (800-1500 words)"
+
+# Pipeline stages
+pipeline_stages:
+  - stage: "topic_analysis"
+    description: "Analyze and refine the topic from multiple perspectives"
+    agents: ["Melchior", "Balthasar", "Casper"]
+    timeout: 60
+    prompt_template: |
+      Analyze the following article idea and provide your perspective:
+
+      Topic/Idea: {idea}
+      Target Audience: {target_audience}
+      Desired Tones: {tones}
+      Length: {length}
+
+      Provide:
+      1. Topic Analysis: Key themes and angles to explore
+      2. Audience Considerations: What matters most to this audience
+      3. Tone Recommendations: How to apply the selected tones effectively
+      4. Unique Angle: Your perspective's unique contribution to this topic
+      5. Key Points to Cover: Main ideas that should be included
+
+  - stage: "content_strategy"
+    description: "Develop comprehensive content structure and approach"
+    agents: ["Melchior", "Balthasar", "Casper"]
+    prompt_template: |
+      Based on the topic analysis, develop a content strategy:
+
+      Topic: {idea}
+      Target Audience: {target_audience}
+      Tones: {tones}
+
+      Previous Analysis:
+      {previous_stage_output}
+
+      Provide:
+      1. Article Structure: Suggested outline with sections
+      2. Opening Hook: Compelling way to start the article
+      3. Key Arguments/Points: Main content to develop
+      4. Supporting Elements: Examples, data, or stories to include
+      5. Conclusion Strategy: How to end powerfully
+
+  - stage: "article_drafting"
+    description: "Generate article drafts from each perspective"
+    agents: ["Melchior", "Balthasar", "Casper"]
+    prompt_template: |
+      Write a complete article draft based on the strategy:
+
+      Topic: {idea}
+      Target Audience: {target_audience}
+      Tones: {tones}
+      Length: {length}
+
+      Content Strategy:
+      {content_strategy}
+
+      Write a complete article that:
+      1. Follows the agreed structure
+      2. Incorporates the selected tones naturally
+      3. Speaks directly to the target audience
+      4. Includes your unique perspective and expertise
+      5. Meets the desired length requirements
+
+      Provide the full article text, formatted with proper headings and paragraphs.
+
+  - stage: "quality_review"
+    description: "Cross-review and consensus on quality standards"
+    agents: ["Melchior", "Balthasar", "Casper"]
+    consensus_threshold: 0.75
+    prompt_template: |
+      Review all article drafts and provide quality assessment:
+
+      Topic: {idea}
+      Target Audience: {target_audience}
+
+      All Drafts:
+      {all_drafts}
+
+      Evaluate:
+      1. Tone Consistency: How well each draft achieves the desired tones
+      2. Audience Fit: Which draft best resonates with the target audience
+      3. Content Quality: Depth, accuracy, and value of information
+      4. Readability: Clarity and engagement level
+      5. Recommendation: Which draft to use or how to combine the best elements
+
+      Provide your quality assessment and confidence rating (0.0 to 1.0).
+
+  - stage: "final_synthesis"
+    description: "Create final article incorporating best elements"
+    agents: ["Melchior"]
+    prompt_template: |
+      Create the final article by synthesizing the best elements from all drafts:
+
+      Topic: {idea}
+      Target Audience: {target_audience}
+      Tones: {tones}
+
+      All Drafts:
+      {all_drafts}
+
+      Quality Reviews:
+      {quality_reviews}
+
+      Produce:
+      1. The final, polished article incorporating the strongest elements from each draft
+      2. A brief explanation of what you included from each perspective
+      3. Suggested title and subtitle options
+
+# Output configuration
+output_format: ["json", "md", "html"]
+output_includes:
+  - "input_parameters"
+  - "topic_analysis"
+  - "content_strategy"
+  - "all_drafts"
+  - "quality_reviews"
+  - "final_article"
+  - "synthesis_notes"
+
+# UI Display configuration
+ui_display:
+  layout: "side_by_side"
+  show_agent_colors: true
+  agent_colors:
+    Melchior: "#3498db"  # Blue - Analytical/Technical
+    Balthasar: "#e74c3c"  # Red - Human-centric/Accessible
+    Casper: "#2ecc71"  # Green - Creative/Innovative
+  show_stage_progress: true
+  show_word_count: true
+  enable_draft_comparison: true
+  highlight_tone_usage: true
